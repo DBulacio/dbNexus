@@ -8,6 +8,7 @@ base/migrations/__pycache__/*
 dbnexus_backend/__pycache__/*
 /.pnp
 .pnp.js
+db.sqlite3
 
 # testing
 /coverage
