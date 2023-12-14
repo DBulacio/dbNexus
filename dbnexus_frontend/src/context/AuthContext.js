@@ -30,15 +30,23 @@ export const AuthProvider = ({children}) => {
       setAuthTokens(data)
       setUser(jwtDecode(data.access))
       localStorage.setItem('authTokens', JSON.stringify(data))
-      navigate('/home')
+      navigate('/')
     } else {
       alert('Error in AuthContext')
     }
   }
 
+  let logoutUser = () => {
+    setAuthTokens(null)
+    setUser(null)
+    localStorage.removeItem('authTokens')
+    navigate('/login')
+  }
+
   let contextData = {
     user: user,
     loginUser: loginUser,
+    logoutUser: logoutUser
   }
 
   return (
