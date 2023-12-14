@@ -2,10 +2,10 @@
 
 # dependencies
 dbnexus_frontend/node_modules
-base/__pycache__/*
-base/api/__pycache__/*
-base/migrations/__pycache__/*
-dbnexus_backend/__pycache__/*
+base/__pycache__
+base/api/__pycache__
+base/migrations/__pycache__
+dbnexus_backend/__pycache__
 /.pnp
 .pnp.js
 db.*
