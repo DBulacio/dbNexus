@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import ProductSerializer
-from base.models import Product
+from .serializers import CompanySerializer, UserSerializer
+from base.models import Company, UserSetting
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -32,7 +32,13 @@ def getRoutes(request):
   return Response(routes)
 
 @api_view(['GET'])
-def getProducts(request):
-   products = Product.objects.all()
-   serializer = ProductSerializer(products, many=True)
+def getCompanies(request):
+   companies = Company.objects.all()
+   serializer = CompanySerializer(companies, many=True)
+   return Response(serializer.data)
+
+@api_view(['GET'])
+def getUsers(request):
+   users = UserSetting.objects.all()
+   serializer = UserSerializer(users, many=True)
    return Response(serializer.data)
