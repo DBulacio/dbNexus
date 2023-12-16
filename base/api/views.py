@@ -144,6 +144,9 @@ def updateUser(request, pk):
 
 @api_view(['DELETE'])
 def deleteUser(request, pk):
-  user = UserSetting.objects.get(id=pk)
+  userSetting = UserSetting.objects.get(id=pk)
+  user = User.objects.get(id=userSetting.user.id)
   user.delete()
+  userSetting.delete()
+  
   return Response("User was deleted!")

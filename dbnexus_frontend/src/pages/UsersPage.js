@@ -1,0 +1,52 @@
+import React, {useState, useEffect} from 'react'
+// import AuthContext from '../context/AuthContext'
+
+const UsersPage = () => {
+  let [users, setUsers] = useState([])
+
+  let getUsers = async () => {
+    let res = await fetch("http://127.0.0.1:8000/api/users/")
+    let data = await res.json()
+
+    setUsers(data)
+    console.log('data', data)
+  }
+
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+  let deleteUser = async (id) => {
+    fetch(`http://127.0.0.1:8000/api/users/${id}/delete/`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  return (
+    <div>
+      <button>(+) Add User</button>
+      <div>
+        <h1>Listado de usuarios</h1>
+        {users.length > 0 ? (
+          <span>
+            {users.map((user, index) => (
+              <span key={index}>
+                <h2>{user.id}: {user.firstName} {user.lastName}, {user.dni}</h2>
+                <button>(*) Update User</button>
+                <button onClick={() => deleteUser(user.id)}>(-) Delete User</button>
+              </span>
+            ))}
+          </span>
+        ) : (
+          <p>No hay usuarios para mostrar</p>
+        )}
+        
+      </div>
+    </div>
+  )
+}
+
+export default UsersPage

@@ -2,6 +2,7 @@ import './App.css';
 import Header from './components/Header'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
+import UsersPage from './pages/UsersPage'
 import PrivateRoutes from './utils/PrivateRoutes'
 import { AuthProvider } from './context/AuthContext';
 
@@ -20,6 +21,7 @@ function App() {
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/users" element={<UsersPage />} />
           </Routes>
         </AuthProvider>
       </Router>
