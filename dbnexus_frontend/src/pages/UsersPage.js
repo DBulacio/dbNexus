@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
-// import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const UsersPage = () => {
+  const navigate = useNavigate()
   let [users, setUsers] = useState([])
 
   let getUsers = async () => {
@@ -27,7 +28,7 @@ const UsersPage = () => {
 
   return (
     <div>
-      <button>(+) Add User</button>
+      <button onClick={() => navigate("add")}>(+) Add User</button>
       <div>
         <h1>Listado de usuarios</h1>
         {users.length > 0 ? (
