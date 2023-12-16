@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import CompanySerializer, UserSerializer
+from .serializers import CompanySerializer, UserSettingSerializer, UserSerializer
 from base.models import Company, UserSetting
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -89,14 +89,24 @@ def getCompanies(request):
 @api_view(['GET'])
 def getUsers(request):
   users = UserSetting.objects.all()
-  serializer = UserSerializer(users, many=True)
+  serializer = UserSettingSerializer(users, many=True)
   return Response(serializer.data)
 
 @api_view(['GET'])
 def getUser(request, pk):
-  user = UserSetting.objects.get(id=pk)
-  serializer = UserSerializer(user, many=False)
-  return Response(serializer.data)
+  try:
+    # Get User and UserSetting instances based on the provided primary key (pk)
+    user_setting = UserSetting.objects.get(id=pk)
+
+    # Serialize UserSetting data
+    user_setting_serializer = UserSettingSerializer(user_setting, many=False)
+    user_setting_data = user_setting_serializer.data
+
+    return Response(user_setting_data)
+
+  except UserSetting.DoesNotExist:
+    # Handle the case where either User or UserSetting does not exist for the provided pk
+    return Response({'error': 'UserSetting not found'}, status=404)
 
 @api_view(['POST'])
 def createUser(request):
@@ -105,10 +115,12 @@ def createUser(request):
   if User.objects.filter(username=data['username']).exists():
     return Response({"error": f"Username '{data['username']}' already exists."}, status=400)
 
-  user_instance = User.objects.create(
+  user_instance = User.objects.create_user(
     username=data['username'],
     password=data['password'],
     email=data['email'],
+    first_name=data['firstName'],
+    last_name=data['lastName'],
   )
 
   group_instance = Group.objects.get(id=1) # Seleccionar group
@@ -117,30 +129,32 @@ def createUser(request):
   user_setting_instance = UserSetting.objects.create(
     user=user_instance,
     dni=data.get('dni', ''),
-    firstName=data.get('firstName', ''),
-    lastName=data.get('lastName', ''),
     phone=data.get('phone', ''),
     group_id=group_instance,
     company_id=company_instance,
-    active=True,
   )
-  serializer = UserSerializer(user_setting_instance, many=False)
+  serializer = UserSettingSerializer(user_setting_instance, many=False)
 
   return Response(serializer.data)
   
 @api_view(['PUT'])
 def updateUser(request, pk):
-  data = request.data
-  user = UserSetting.objects.get(id=pk)
-  serializer = UserSerializer(instance=user, data=data)
-  
-  if(serializer.is_valid()):
-    serializer.save()
-  else:
-    print('Validation Errors:', serializer.errors)
-    return Response(serializer.errors, status=400)
-  
-  return Response(serializer.data)
+  try:
+    data = request.data
+    user_setting = UserSetting.objects.get(id=pk)
+
+    # Update UserSetting fields
+    serializer = UserSettingSerializer(instance=user_setting, data=data)
+
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data)
+    else:
+      print('Validation Errors:', serializer.errors)
+      return Response(serializer.errors, status=400)
+
+  except UserSetting.DoesNotExist:
+    return Response({'error': 'UserSetting not found'}, status=404)
 
 @api_view(['DELETE'])
 def deleteUser(request, pk):

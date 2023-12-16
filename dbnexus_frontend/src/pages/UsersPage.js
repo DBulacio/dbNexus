@@ -8,6 +8,7 @@ const UsersPage = () => {
   let getUsers = async () => {
     let res = await fetch("http://127.0.0.1:8000/api/users/")
     let data = await res.json()
+    
 
     setUsers(data)
     console.log('data', data)
@@ -35,8 +36,8 @@ const UsersPage = () => {
           <span>
             {users.map((user, index) => (
               <span key={index}>
-                <h2>{user.id}: {user.firstName} {user.lastName}, {user.dni}</h2>
-                <button>(*) Update User</button>
+                <h2>{user.id}: {user.user.first_name} {user.user.last_name}, {user.dni}</h2>
+                <button onClick={() => navigate(`update/${user.id}`)}>(*) Update User</button>
                 <button onClick={() => deleteUser(user.id)}>(-) Delete User</button>
               </span>
             ))}

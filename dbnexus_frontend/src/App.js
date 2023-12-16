@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import UsersPage from './pages/UsersPage'
 import UserAddForm from './components/users/UserAddForm'
+import UserUpdateForm from './components/users/UserUpdateForm'
 import PrivateRoutes from './utils/PrivateRoutes'
 import { AuthProvider } from './context/AuthContext';
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/users" element={<UsersPage />} />
             <Route path="/users/add" element={<UserAddForm />} />
+            <Route path="/users/update/:userId" element={<UserUpdateForm />} />
           </Routes>
         </AuthProvider>
       </Router>
