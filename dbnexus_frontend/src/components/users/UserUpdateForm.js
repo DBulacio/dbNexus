@@ -17,7 +17,7 @@ const UserAddForm = () => {
 
   let getUser = async () => {
     // console.log('userId >>', userId)
-    let res = await fetch(`http://127.0.0.1:8000/api/users/${userId}/`)
+    let res = await fetch(`/api/users/${userId}/`)
     let data = await res.json()
 
     const userFields = data.user || {};
@@ -51,7 +51,7 @@ const UserAddForm = () => {
       phone: data.phone || '',
     }
 
-    let res = await fetch(`http://127.0.0.1:8000/api/users/${userId}/`, {
+    let res = await fetch(`/api/users/${userId}/`, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json'

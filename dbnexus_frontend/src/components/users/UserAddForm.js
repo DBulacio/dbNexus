@@ -29,7 +29,7 @@ const UserAddForm = () => {
   }
 
   let addUser = async (data) => {
-    const res = await fetch('http://127.0.0.1:8000/api/users/', {
+    const res = await fetch('/api/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
