@@ -20,12 +20,12 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route path="/" exact element={<HomePage />} />
+              <Route path="/users" element={<UsersPage />} />
+              <Route path="/users/add" element={<UserAddForm />} />
+              <Route path="/users/update/:userId" element={<UserUpdateForm />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/users" element={<UsersPage />} />
-            <Route path="/users/add" element={<UserAddForm />} />
-            <Route path="/users/update/:userId" element={<UserUpdateForm />} />
           </Routes>
         </AuthProvider>
       </Router>

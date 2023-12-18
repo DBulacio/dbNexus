@@ -8,7 +8,6 @@ const UsersPage = () => {
   let getUsers = async () => {
     let res = await fetch("http://127.0.0.1:8000/api/users/")
     let data = await res.json()
-    
 
     setUsers(data)
     console.log('data', data)
@@ -19,7 +18,7 @@ const UsersPage = () => {
   }, [])
 
   let deleteUser = async (id) => {
-    fetch(`http://127.0.0.1:8000/api/users/${id}/delete/`, {
+    fetch(`http://127.0.0.1:8000/api/users/${id}/`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json'

@@ -51,7 +51,7 @@ const UserAddForm = () => {
       phone: data.phone || '',
     }
 
-    let res = await fetch(`http://127.0.0.1:8000/api/users/${userId}/update/`, {
+    let res = await fetch(`http://127.0.0.1:8000/api/users/${userId}/`, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json'
