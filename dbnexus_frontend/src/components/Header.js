@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import '../App.css'
 
 const Header = () => {
   let {user, logoutUser} = useContext(AuthContext)
@@ -8,10 +9,10 @@ const Header = () => {
   return (
     <div>
       {user ? (
-        <nav>
+        <nav className='navbar'>
           <Link to="/">Home</Link>
           <Link to="/users">Users</Link>
-          <p onClick={logoutUser}>Logout</p>
+          <Link onClick={logoutUser}>Logout</Link>
         </nav>
       ) : (
         <p>LOGIN</p>

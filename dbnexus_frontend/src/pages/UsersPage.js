@@ -104,6 +104,7 @@ const UsersPage = () => {
       <div>
         <h1>Listado de usuarios</h1>
         <DataGrid
+          sx="width: 800px"
           rows={rows}
           columns={columns}
           pageSize={5}
