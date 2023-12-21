@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from ..serializers import UserSettingSerializer, UserSerializer
-from ...models import UserSetting
+from ...models import UserSetting, Company
 from django.contrib.auth.models import User, Group
 
 def getUsers(request):
