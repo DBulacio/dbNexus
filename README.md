@@ -1,5 +1,5 @@
 # dbNexus
-dbNexus is the concept for a simple web app that looks to bring solutions and speed-up the administrative side of companies, based on my experience working in different industries.
+Through my diverse experiences working across different industries, I have recognized the need for an efficient and user-friendly solution to enhance administrative processes. This insight has inspired me to develop the concept of DBNexus, a comprehensive web-based application designed to improve administrative workflows and streamline operations within companies.
 
 ## 🛠 Tech Stack
 **Client:** React
