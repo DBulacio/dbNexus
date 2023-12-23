@@ -1,10 +1,10 @@
-# from rest_framework.response import Response
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .utils.user import updateUser, createUser, deleteUser, getUser, getUsers
+from .utils.user import getUsers, getUser, createUser, updateUser, deleteUser
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod

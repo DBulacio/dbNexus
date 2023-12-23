@@ -1,78 +1,67 @@
 from rest_framework.response import Response
-from ..serializers import UserSettingSerializer, UserSerializer
-from ...models import UserSetting, Company
-from django.contrib.auth.models import User, Group
+from rest_framework import status
+from django.shortcuts import get_list_or_404, get_object_or_404
+# from ..serializers import UserSettingSerializer, UserSerializer
+from ..serializers import UserSerializer
+# from ...models import UserSetting, Company
+from ...models import UserManager, User
+# from django.contrib.auth.models import User, Group
 
 def getUsers(request):
-  users = UserSetting.objects.all()
-  serializer = UserSettingSerializer(users, many=True)
+  users = get_list_or_404(User.objects.all())
+  serializer = UserSerializer(users, many=True)
   return Response(serializer.data)
 
 def getUser(request, pk):
   try:
-    # Get User and UserSetting instances based on the provided primary key (pk)
-    user_setting = UserSetting.objects.get(id=pk)
+    user = User.objects.get(id=pk)
 
-    # Serialize UserSetting data
-    user_setting_serializer = UserSettingSerializer(user_setting, many=False)
-    user_setting_data = user_setting_serializer.data
+    user_serializer = UserSerializer(user, many=False)
+    user_data = user_serializer.data
 
-    return Response(user_setting_data)
+    return Response(user_data)
 
-  except UserSetting.DoesNotExist:
-    # Handle the case where either User or UserSetting does not exist for the provided pk
-    return Response({'error': 'UserSetting not found'}, status=404)
+  except User.DoesNotExist:
+    return Response({'error': 'User was not found!'}, status=404)
   
 def createUser(request):
   data = request.data
     
-  if User.objects.filter(username=data['username']).exists():
-    return Response({"error": f"Username '{data['username']}' already exists."}, status=400)
+  serializer = UserSerializer(data=data)
+  if(serializer.is_valid()):
+    user_instance = User.objects.create_user(
+      email = data['email'],
+      username = data['username'],
+      first_name = data['first_name'],
+      last_name = data['last_name'],
+      password = data['password']
+    )
 
-  user_instance = User.objects.create_user(
-    username=data['username'],
-    password=data['password'],
-    email=data['email'],
-    first_name=data['firstName'],
-    last_name=data['lastName'],
-  )
-
-  group_instance = Group.objects.get(id=1) # Seleccionar group
-  company_instance = Company.objects.get(id=1) # Seleccionar company
-
-  user_setting_instance = UserSetting.objects.create(
-    user=user_instance,
-    dni=data.get('dni', ''),
-    phone=data.get('phone', ''),
-    group_id=group_instance,
-    company_id=company_instance,
-  )
-  serializer = UserSettingSerializer(user_setting_instance, many=False)
-
-  return Response(serializer.data)
+    serializer = UserSerializer(user_instance, many=False)
+    
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+  
+  return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def updateUser(request, pk):
-  try:
-    data = request.data
-    user_setting = UserSetting.objects.get(id=pk)
+  # Data has to look like this:
+  # { "username": "testuser2", "password": "wut", "email": "test2@test.com", "first_name": "first_name2", "last_name": "last_name2" }
+  data = request.data
+  user = get_object_or_404(User, pk=pk)
 
-    # Update UserSetting fields
-    serializer = UserSettingSerializer(instance=user_setting, data=data)
+  print(data)
 
-    if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data)
-    else:
-      print('Validation Errors:', serializer.errors)
-      return Response(serializer.errors, status=400)
+  serializer = UserSerializer(instance=user, data=data)
 
-  except UserSetting.DoesNotExist:
-    return Response({'error': 'UserSetting not found'}, status=404)
+  if serializer.is_valid():
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_200_OK)
+  else:
+    print('Validation Errors:', serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
 def deleteUser(request, pk):
-  userSetting = UserSetting.objects.get(id=pk)
-  user = User.objects.get(id=userSetting.user.id)
+  user = User.objects.get(id=pk)
   user.delete()
-  userSetting.delete()
   
   return Response("User was deleted!")
