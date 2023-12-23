@@ -21,12 +21,13 @@ const UsersPage = () => {
 
     setUsers(data);
 
+    console.log('>>', data)
+
     let newRows = data.map(element => ({
       id: element.id,
       dni: element.dni,
-      phone: element.phone,
-      first_name: element.user.first_name,
-      last_name: element.user.last_name,
+      first_name: element.first_name,
+      last_name: element.last_name,
     }));
 
     setRows(newRows);
@@ -84,8 +85,7 @@ const UsersPage = () => {
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'first_name', headerName: 'First name', width: 150 },
     { field: 'last_name', headerName: 'Last name', width: 150 },
-    { field: 'dni', headerName: 'DNI', type: 'number', width: 90 },
-    { field: 'phone', headerName: 'Phone', type: 'number', width: 130 },
+    // { field: 'dni', headerName: 'DNI', type: 'number', width: 90 },
     {
       field: 'action',
       headerName: 'Action',
