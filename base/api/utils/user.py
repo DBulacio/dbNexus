@@ -1,11 +1,11 @@
 from rest_framework.response import Response
-from ..serializers import UserSettingSerializer, UserSerializer
-from ...models import UserSetting, Company
+from ..serializers import UserSerializer
+# from ...models import UserSetting, Company
 from django.contrib.auth.models import User, Group
 
 def getUsers(request):
-  users = UserSetting.objects.all()
-  serializer = UserSettingSerializer(users, many=True)
+  users = User.objects.all()
+  serializer = UserSerializer(users, many=True)
   return Response(serializer.data)
 
 def getUser(request, pk):
