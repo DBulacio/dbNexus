@@ -1,4 +1,4 @@
-# from rest_framework.response import Response
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -73,12 +73,6 @@ def getRoutes(request):
   ]
 
   return Response(routes)
-
-# @api_view(['GET'])
-# def getCompanies(request):
-#   companies = Company.objects.all()
-#   serializer = CompanySerializer(companies, many=True)
-#   return Response(serializer.data)
 
 # Users
 @api_view(['GET', 'PUT', 'DELETE'])
