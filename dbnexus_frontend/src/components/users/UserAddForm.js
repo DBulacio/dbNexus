@@ -5,14 +5,13 @@ import { useNavigate } from 'react-router-dom'
 const UserAddForm = () => {
   let navigate = useNavigate()
   const [formData, setFormData] = useState({
+    id: '',
     username: '',
-    password: '',
     email: '',
-    dni: 0,
     firstName: '',
     lastName: '',
-    phone: '',
-  })
+    password: '',
+  });
 
   const handleChange = (e) => {
     // console.log('formData >>>>>', formData)
@@ -53,14 +52,10 @@ const UserAddForm = () => {
         <input type="password" name="password" onChange={handleChange} />
         <label htmlFor="email">Enter an email:</label>
         <input type="email" name="email" onChange={handleChange} />
-        <label htmlFor="dni">Enter user's dni:</label>
-        <input type="number" name="dni" onChange={handleChange} />
         <label htmlFor="firstName">Enter first name:</label>
         <input type="text" name="firstName" onChange={handleChange} />
         <label htmlFor="lastName">Enter last name:</label>
         <input type="text" name="lastName" onChange={handleChange} />
-        <label htmlFor="phone">Enter your phone number:</label>
-        <input type="tel" name="phone" onChange={handleChange} />
         <input type="submit" />
         {/* // TODO:
         // select de group

@@ -7,49 +7,38 @@ const UserAddForm = () => {
   const [formData, setFormData] = useState({
     id: '',
     username: '',
-    // password: '',
     email: '',
-    dni: 0,
     firstName: '',
     lastName: '',
-    phone: '',
+    password: '',
   });
 
   let getUser = async () => {
     // console.log('userId >>', userId)
     let res = await fetch(`/api/users/${userId}/`)
     let data = await res.json()
-
-    const userFields = data.user || {};
+    // console.log('data', data)
 
     // Update formData state with the extracted fields
     setFormData({
-      id: userFields.id || '',
-      username: userFields.username || '',
-      password: userFields.password || '',
-      email: userFields.email || '',
-      dni: data.dni || 0,
-      firstName: userFields.first_name || '',
-      lastName: userFields.last_name || '',
-      phone: data.phone || '',
+      id: data.id || '',
+      username: data.username || '',
+      email: data.email || '',
+      firstName: data.first_name || '',
+      lastName: data.last_name || '',
+      password: data.password
     });
   }
 
   const updateUser = async (data) => {
-    console.log('formData', formData)
-    console.log('data', formData)
     let sendData = {
-      user: {
-        id: data.id,
-        username: data.username || '',
-        password: data.password || '',
-        email: data.email || '',
-        first_name: data.firstName || '',
-        last_name: data.lastName || '',
-      },
-      dni: data.dni || 0,
-      phone: data.phone || '',
+      username: data.username,
+      password: data.password,
+      email: data.email,
+      first_name: data.firstName,
+      last_name: data.lastName,
     }
+    // console.log('data', sendData)
 
     let res = await fetch(`/api/users/${userId}/`, {
       method: "PUT",
@@ -89,18 +78,14 @@ const UserAddForm = () => {
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Enter a username:</label>
         <input type="text" name="username" value={formData.username} onChange={handleChange} />
-        {/* <label htmlFor="password">Enter a password:</label>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} /> */}
+        {/* <label htmlFor="password">Enter a password:</label> */}
+        <input type="hidden" name="password" value={formData.password} />
         <label htmlFor="email">Enter an email:</label>
         <input type="email" name="email" value={formData.email} onChange={handleChange} />
-        <label htmlFor="dni">Enter user's dni:</label>
-        <input type="number" name="dni" value={formData.dni} onChange={handleChange} />
         <label htmlFor="firstName">Enter first name:</label>
         <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
         <label htmlFor="lastName">Enter last name:</label>
         <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
-        <label htmlFor="phone">Enter your phone number:</label>
-        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
         <input type="submit" />
         {/* // TODO:
         // select de group
