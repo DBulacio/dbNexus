@@ -5,6 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .utils.user import updateUser, createUser, deleteUser, getUser, getUsers
+from .utils.client import createClient, getClients
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -93,4 +94,24 @@ def allUsers(request):
 
   if(request.method == 'POST'):
     return createUser(request)
-    
+  
+# Clients
+@api_view(['GET', 'PUT', 'DELETE'])
+def individualClients(request, pk):
+  pass
+  # if(request.method == 'GET'):
+  #   return getClient(request, pk)
+
+  # if(request.method == 'PUT'):
+  #   return updateClient(request, pk)
+  
+  # if(request.method == 'DELETE'):
+  #   return deleteClient(request, pk)
+  
+@api_view(['GET', 'POST'])
+def allClients(request):
+  if(request.method == 'GET'):
+    return getClients(request)
+
+  if(request.method == 'POST'):
+    return createClient(request)
