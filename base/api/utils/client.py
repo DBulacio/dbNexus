@@ -56,7 +56,6 @@ def getClients(request):
       'dir': client_data[0]['dir'] if client_data else None,
       'num': client_data[0]['num'] if client_data else None,
       'postal': client_data[0]['postal'] if client_data else None,
-      'client': client_data[0]['client'] if client_data else None,
       'country': client_data[0]['country'] if client_data else None,
       'state': client_data[0]['state'] if client_data else None,
     }
