@@ -5,30 +5,44 @@ from ..serializers import ClientSerializer, ClientDataSerializer
 from base.models import Client, ClientData
 
 def createClient(request):
+#   {
+#   "name": "Client Test 9",
+#   "dni": 9,
+#   "cuil": 90909,
+#   "tel": "11000009",
+#   "dir": "casa test 9",
+#   "num": 123,
+#   "postal": "123",
+#   "country": 10,
+#   "state": 117
+#   }
   data = request.data
 
-  client_instance = Client.objects.create_client(
-    name = data["name"],
-    dni  = data["dni"],
-    cuil = data["cuil"],
-    tel  = data["tel"],
-  )
+  client = {
+    "name" : data["name"],
+    "dni"  : data["dni"],
+    "cuil" : data["cuil"],
+    "tel"  : data["tel"],
+  }
 
-  client_serializer = ClientSerializer(client_instance, many=False)
+  client_serializer = ClientSerializer(data=client)
   if(client_serializer.is_valid()):
+    client_instance = client_serializer.save()
 
-    client_data_instance = ClientData.objects.create_client_data(
-      client  = client_instance,
-      dir     = data["dir"],
-      num     = data["num"],
-      postal  = data["postal"],
-      country = data["country"],
-      state   = data["state"],
-    )
+    client_data = {
+      "client"  : client_instance.pk,
+      "dir"     : data["dir"],
+      "num"     : data["num"],
+      "postal"  : data["postal"],
+      "country"  : data["country"],
+      "state"  : data["state"],
+    }
 
-    client_data_serializer = ClientDataSerializer(client_data_instance, many=False)
+    client_data_serializer = ClientDataSerializer(data=client_data)
+
     if(client_data_serializer.is_valid()):
-      return Response(client_serializer.data, status=status.HTTP_200_OK)
+      client_data_instance = client_data_serializer.save()
+      return Response(ClientDataSerializer(client_data_instance).data, status=status.HTTP_200_OK)
     
     return Response("There was an error creating ClientData", status=status.HTTP_400_BAD_REQUEST)
   return Response("There was an error creating Client", status=status.HTTP_400_BAD_REQUEST)
