@@ -102,4 +102,16 @@ def getClient(request, pk):
     'state': client_data_serializer.data['state'] if client_data_serializer else None,
   }
 
-  return Response(combined_data)
+  return Response(combined_data, status=status.HTTP_200_OK)
+
+def deleteClient(request, pk):
+  client = get_object_or_404(Client, pk=pk)
+  client.delete()
+
+  try:
+    client_data = ClientData.objects.get(client=pk)
+    client_data.delete()
+  except ClientData.DoesNotExist:
+    pass
+
+  return Response("Client was deleted!", status=status.HTTP_200_OK)
