@@ -77,3 +77,29 @@ def getClients(request):
     combined_data_list.append(combined_data)
 
   return Response(combined_data_list, status=status.HTTP_200_OK)
+
+def getClient(request, pk):
+  client = get_object_or_404(Client, pk=pk)
+  client_serializer = ClientSerializer(client, many=False)
+
+  # There may be cases where we don't have client_data to display.
+  try:
+    client_data = ClientData.objects.get(client=pk)
+    client_data_serializer = ClientDataSerializer(client_data, many=False)
+  except ClientData.DoesNotExist:
+    client_data_serializer = None
+
+  combined_data = {
+    'id': client_serializer.data['id'],
+    'name': client_serializer.data['name'],
+    'dni': client_serializer.data['dni'],
+    'cuil': client_serializer.data['cuil'],
+    'tel': client_serializer.data['tel'],
+    'dir': client_data_serializer.data['dir'] if client_data_serializer else None,
+    'num': client_data_serializer.data['num'] if client_data_serializer else None,
+    'postal': client_data_serializer.data['postal'] if client_data_serializer else None,
+    'country': client_data_serializer.data['country'] if client_data_serializer else None,
+    'state': client_data_serializer.data['state'] if client_data_serializer else None,
+  }
+
+  return Response(combined_data)
