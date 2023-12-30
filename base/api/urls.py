@@ -16,6 +16,7 @@ urlpatterns = [
   path('clients/company/<str:pk>/', views.clientsByCompany, name='clientsByCompany'),
   path('companies/', views.allCompanies, name='companies'),
   path('companies/<str:pk>/', views.individualCompanies, name='company'),
+  path('companies/user/<str:pk>/', views.companiesByUser, name='companiesByUser'),
   # authentication
   path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
   path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
