@@ -35,4 +35,5 @@ class ClientSerializer(ModelSerializer):
       'postal':  {'required': False},
       'country': {'required': False},
       'state':   {'required': False},
+      'company': {'required': False},
     }

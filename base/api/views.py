@@ -114,3 +114,25 @@ def allClients(request):
 
   if(request.method == 'POST'):
     return createClient(request)
+
+# Companies
+@api_view(['GET', 'PUT', 'DELETE'])
+def individualCompanies(request, pk):
+  pass
+  # if(request.method == 'GET'):
+  #   return getCompany(request, pk)
+
+  # if(request.method == 'PUT'):
+  #   return updateCompany(request, pk)
+  
+  # if(request.method == 'DELETE'):
+  #   return deleteCompany(request, pk)
+  
+@api_view(['GET', 'POST'])
+def allCompanies(request):
+  pass
+  # if(request.method == 'GET'):
+  #   return getCompanies(request)
+
+  # if(request.method == 'POST'):
+  #   return createCompany(request)

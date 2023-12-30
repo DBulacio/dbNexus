@@ -6,36 +6,25 @@ from base.models import Client
 
 def createClient(request):
   # {
-  # "name": "Client Test 9",
-  # "dni": 9,
-  # "cuil": 90909,
-  # "tel": "11000009",
-  # "dir": "casa test 9",
+  # "name": "Client Test 0",
+  # "dni": 1,
+  # "cuil": 00000,
+  # "tel": "11000000",
+  # "dir": "casa test 0",
   # "num": 123,
   # "postal": "123",
   # "country": 10,
-  # "state": 117
+  # "state": 117,
+  # "company": 1
   # }
   data = request.data
 
-  client = {
-    "name" : data["name"],
-    "dni"  : data["dni"],
-    "cuil" : data["cuil"],
-    "tel"  : data["tel"],
-    "dir"      : data["dir"],
-    "num"      : data["num"],
-    "postal"   : data["postal"],
-    "country"  : data["country"],
-    "state"    : data["state"],
-  }
-
-  serializer = ClientSerializer(data=client)
+  serializer = ClientSerializer(data=data)
   if(serializer.is_valid()):
     client_instance = serializer.save()
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
     
-  return Response("There was an error creating Client", status=status.HTTP_400_BAD_REQUEST)
+  return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def getClients(request):
   clients = get_list_or_404(Client.objects.all())
