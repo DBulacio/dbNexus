@@ -13,6 +13,7 @@ urlpatterns = [
   path('users/<str:pk>/', views.individualUsers, name='user'),
   path('clients/', views.allClients, name='clients'),
   path('clients/<str:pk>/', views.individualClients, name='client'),
+  path('clients/company/<str:pk>/', views.clientsByCompany, name='clientsByCompany'),
   path('companies/', views.allCompanies, name='companies'),
   path('companies/<str:pk>/', views.individualCompanies, name='company'),
   # authentication
