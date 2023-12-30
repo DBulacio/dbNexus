@@ -6,6 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .utils.user import updateUser, createUser, deleteUser, getUser, getUsers
 from .utils.client import createClient, getClients, getClient, deleteClient, updateClient
+from .utils.company import createCompany, getCompanies, getCompany, deleteCompany, updateCompany
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -118,21 +119,19 @@ def allClients(request):
 # Companies
 @api_view(['GET', 'PUT', 'DELETE'])
 def individualCompanies(request, pk):
-  pass
-  # if(request.method == 'GET'):
-  #   return getCompany(request, pk)
+  if(request.method == 'GET'):
+    return getCompany(request, pk)
 
-  # if(request.method == 'PUT'):
-  #   return updateCompany(request, pk)
+  if(request.method == 'PUT'):
+    return updateCompany(request, pk)
   
-  # if(request.method == 'DELETE'):
-  #   return deleteCompany(request, pk)
+  if(request.method == 'DELETE'):
+    return deleteCompany(request, pk)
   
 @api_view(['GET', 'POST'])
 def allCompanies(request):
-  pass
-  # if(request.method == 'GET'):
-  #   return getCompanies(request)
+  if(request.method == 'GET'):
+    return getCompanies(request)
 
-  # if(request.method == 'POST'):
-  #   return createCompany(request)
+  if(request.method == 'POST'):
+    return createCompany(request)

@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
-from base.models import Client
+from base.models import Client, Company
 
 class UserSerializer(ModelSerializer):
   class Meta:
@@ -19,6 +19,15 @@ class UserSerializer(ModelSerializer):
       "date_joined":      {'required': False},
       "groups":           {'required': False},
       "user_permissions": {'required': False},
+    }
+
+class CompanySerializer(ModelSerializer):
+  class Meta:
+    model = Company
+    fields = '__all__'
+    extra_kwargs = {
+      'name' : {'required': False},
+      'user' : {'required': False},
     }
 
 class ClientSerializer(ModelSerializer):
