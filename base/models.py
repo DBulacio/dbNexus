@@ -16,3 +16,13 @@ class Client(models.Model):
   country = models.ForeignKey('cities_light.Country', on_delete=models.SET_NULL, null=True, blank=True)
   state   = models.ForeignKey('cities_light.Region', on_delete=models.SET_NULL, null=True, blank=True)
   company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+class Product(models.Model):
+  name    = models.CharField(max_length=50)
+  active  = models.BooleanField(default=True)
+  company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+class Stock(models.Model):
+  product  = models.ForeignKey(Product, on_delete=models.CASCADE)
+  date_in  = models.DateField(auto_now_add=True)
+  date_out = models.DateField(null=True, blank=True, default=None)

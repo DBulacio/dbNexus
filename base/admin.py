@@ -6,3 +6,8 @@ admin.site.register(Client)
 
 from .models import Company
 admin.site.register(Company)
+
+from .models import Product
+admin.site.register(Product)
+from .models import Stock
+admin.site.register(Stock)
