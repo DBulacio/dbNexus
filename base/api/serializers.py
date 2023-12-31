@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
-from base.models import Client, Company
+from base.models import Client, Company, Product, Stock
 
 class UserSerializer(ModelSerializer):
   class Meta:
@@ -45,4 +45,24 @@ class ClientSerializer(ModelSerializer):
       'country': {'required': False},
       'state':   {'required': False},
       'company': {'required': False},
+    }
+
+class ProductSerializer(ModelSerializer):
+  class Meta:
+    model = Product
+    fields = '__all__'
+    extra_kwargs = {
+      'name':    {'required': False},
+      'active':  {'required': False},
+      'company': {'required': False},
+    }
+
+class StockSerializer(ModelSerializer):
+  class Meta:
+    model = Stock
+    fields = '__all__'
+    extra_kwargs = {
+      'product':  {'required': False},
+      'date_in':  {'required': False},
+      'date_out': {'required': False},
     }
