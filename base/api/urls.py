@@ -17,6 +17,12 @@ urlpatterns = [
   path('companies/', views.allCompanies, name='companies'),
   path('companies/<str:pk>/', views.individualCompanies, name='company'),
   path('companies/user/<str:pk>/', views.companiesByUser, name='companiesByUser'),
+  
+  path('products/', views.allProducts, name='products'),
+  path('products/<str:pk>/', views.individualProducts, name='product'),
+  path('stock/', views.addStock, name='stock'),
+  path('stock/bulk/', views.addBulStock, name='bulk-stock'),
+  path('stock/<str:pk>/', views.stockByProduct, name='stockByProduct'),
   # authentication
   path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
   path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

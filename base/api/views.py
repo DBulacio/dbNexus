@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .utils.user import updateUser, createUser, deleteUser, getUser, getUsers
 from .utils.client import createClient, getClients, getClient, deleteClient, updateClient, getClientsByCompany
 from .utils.company import createCompany, getCompanies, getCompany, deleteCompany, updateCompany, getCompaniesByUser
+from .utils.product import createProduct, getProducts, getProduct, deleteProduct, updateProduct, addBulkStock, addManualStock, getStockByProduct, takeStock
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -144,3 +145,38 @@ def allCompanies(request):
 @api_view(['GET'])
 def companiesByUser(request, pk):
   return getCompaniesByUser(request, pk)
+
+# Products
+@api_view(['GET', 'POST'])
+def allProducts(request):
+  if(request.method == 'GET'):
+    return getProducts(request)
+
+  if(request.method == 'POST'):
+    return createProduct(request)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def individualProducts(request, pk):
+  if(request.method == 'GET'):
+    return getProduct(request, pk)
+
+  if(request.method == 'PUT'):
+    return updateProduct(request, pk)
+  
+  if(request.method == 'DELETE'):
+    return deleteProduct(request, pk)
+
+# Stock
+@api_view(['GET', 'PUT'])
+def stockByProduct(request, pk):
+  if(request.method == 'GET'):
+    return getStockByProduct(request, pk)
+  if(request.method == 'PUT'):
+    return takeStock(request, pk)
+
+@api_view(['POST'])
+def addStock(request):
+  return addManualStock(request)
+@api_view(['POST'])
+def addBulStock(request):
+  return addBulkStock(request)
