@@ -28,50 +28,77 @@ def getRoutes(request):
     {
       'Endpoint': '/token/',
       'method': 'GET',
-      'body': None,
       'description': 'Returns access and refresh token'
     },
     {
       'Endpoint': '/token/refresh/',
       'method': 'GET',
-      'body': None,
       'description': 'Returns new access and refresh token. Blacklistes old refresh token.'
-    },
-    {
-      'Endpoint': '/companies/',
-      'method': 'GET',
-      'body': None,
-      'description': 'Returns an array of companies.'
     },
     {
       'Endpoint': '/users/',
       'method': 'GET',
-      'body': None,
-      'description': 'Returns an array of users.'
+      'description': 'Returns an array of users or creates a new user.'
     },
     {
       'Endpoint': '/users/<str:pk>/',
       'method': 'GET',
-      'body': None,
-      'description': 'Returns a single user.'
+      'description': 'Returns, updates or deletes a single user.'
     },
     {
-      'Endpoint': '/users/create/',
-      'method': 'POST',
-      'body': {'body': ""},
-      'description': 'Creates new user with data sent in post request.'
+      'Endpoint': '/clients/',
+      'method': 'GET',
+      'description': 'Returns an array of clients or creates a new client.'
     },
     {
-      'Endpoint': '/users/<str:pk>/update/',
-      'method': 'PUT',
-      'body': {'body': ""},
-      'description': 'Updates an existing user with data sent in request.'
+      'Endpoint': '/clients/<str:pk>/',
+      'method': 'GET',
+      'description': 'Returns, updates or deletes a single client.'
     },
     {
-      'Endpoint': '/users/<str:pk>/delete/',
-      'method': 'DELETE',
-      'body': None,
-      'description': 'Deletes an existing user.'
+      'Endpoint': '/clients/company/<str:pk>/',
+      'method': 'GET',
+      'description': 'Returns an array of clients of company.'
+    },
+    {
+      'Endpoint': '/companies/',
+      'method': 'GET',
+      'description': 'Returns an array of companies or creates a new company.'
+    },
+    {
+      'Endpoint': '/companies/<str:pk>/',
+      'method': 'GET',
+      'description': 'Returns, updates or deletes a single company.'
+    },
+    {
+      'Endpoint': '/companies/user/<str:pk>/',
+      'method': 'GET',
+      'description': 'Returns an array of companies of user.'
+    },
+    {
+      'Endpoint': '/products/',
+      'method': 'GET',
+      'description': 'Returns an array of products or creates a new product.'
+    },
+    {
+      'Endpoint': '/products/<str:pk>/',
+      'method': 'GET',
+      'description': 'Returns, updates or deletes a single product.'
+    },
+    {
+      'Endpoint': '/stock/',
+      'method': 'GET',
+      'description': 'Creates one row of stock.'
+    },
+    {
+      'Endpoint': '/stock/bulk/',
+      'method': 'GET',
+      'description': 'Creates rows of stock of product.'
+    },
+    {
+      'Endpoint': '/stock/<str:pk>/',
+      'method': 'GET',
+      'description': 'Returns count of rows of stock, or updates date_out of stock.'
     },
   ]
 
@@ -116,7 +143,6 @@ def allClients(request):
 
   if(request.method == 'POST'):
     return createClient(request)
-  
 
 @api_view(['GET'])
 def clientsByCompany(request, pk):
