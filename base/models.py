@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class Company(models.Model):
   name = models.CharField(max_length=50)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
+  is_active = models.BooleanField(default=True)
   
 class Client(models.Model):
   name    = models.CharField(max_length=50)
@@ -19,7 +20,7 @@ class Client(models.Model):
 
 class Product(models.Model):
   name    = models.CharField(max_length=50)
-  active  = models.BooleanField(default=True)
+  is_active  = models.BooleanField(default=True)
   company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 class Stock(models.Model):

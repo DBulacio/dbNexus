@@ -16,7 +16,7 @@ def createProduct(request):
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def getProducts(request):
-  products = get_list_or_404(Product.objects.all())
+  products = get_list_or_404(Product.objects.filter(is_active=True))
   serializer = ProductSerializer(products, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 

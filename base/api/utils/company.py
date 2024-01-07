@@ -15,7 +15,7 @@ def createCompany(request):
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def getCompanies(request):
-  companies = get_list_or_404(Company.objects.all())
+  companies = get_list_or_404(Company.objects.filter(is_active=True))
   serializer = CompanySerializer(companies, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 

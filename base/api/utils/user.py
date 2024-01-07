@@ -5,7 +5,7 @@ from ..serializers import UserSerializer
 from django.contrib.auth.models import User, Group
 
 def getUsers(request):
-  users = get_list_or_404(User.objects.all())
+  users = get_list_or_404(User.objects.filter(is_active=True))
   serializer = UserSerializer(users, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 
