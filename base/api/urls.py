@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import MyTokenObtainPairView
+from .views import MyTokenObtainPairView, CountryListAPIView, RegionListAPIView
 # authentication
 from rest_framework_simplejwt.views import (
   TokenRefreshView,
@@ -23,6 +23,9 @@ urlpatterns = [
   path('stock/', views.addStock, name='stock'),
   path('stock/bulk/', views.addBulStock, name='bulk-stock'),
   path('stock/<str:pk>/', views.stockByProduct, name='stockByProduct'),
+  # country and state
+  path('countries/', CountryListAPIView.as_view(), name='country-list'),
+  path('states/', RegionListAPIView.as_view(), name='region-list'),
   # authentication
   path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
   path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

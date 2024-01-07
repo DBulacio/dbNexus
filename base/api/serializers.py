@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
 from base.models import Client, Company, Product, Stock
+from cities_light.models import Country, Region
 
 class UserSerializer(ModelSerializer):
   class Meta:
@@ -66,3 +67,13 @@ class StockSerializer(ModelSerializer):
       'date_in':  {'required': False},
       'date_out': {'required': False},
     }
+
+class CountrySerializer(ModelSerializer):
+  class Meta:
+    model = Country
+    fields = '__all__'
+
+class RegionSerializer(ModelSerializer):
+  class Meta:
+    model = Region
+    fields = '__all__'

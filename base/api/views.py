@@ -1,5 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import generics
+from cities_light.models import Country, Region
+from .serializers import CountrySerializer, RegionSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -206,3 +209,12 @@ def addStock(request):
 @api_view(['POST'])
 def addBulStock(request):
   return addBulkStock(request)
+
+# Country and State
+class CountryListAPIView(generics.ListAPIView):
+  queryset = Country.objects.all()
+  serializer_class = CountrySerializer
+
+class RegionListAPIView(generics.ListAPIView):
+  queryset = Region.objects.all()
+  serializer_class = RegionSerializer
