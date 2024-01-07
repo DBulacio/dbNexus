@@ -27,3 +27,44 @@ class Stock(models.Model):
   product  = models.ForeignKey(Product, on_delete=models.CASCADE)
   date_in  = models.DateField(auto_now_add=True)
   date_out = models.DateField(null=True, blank=True, default=None)
+
+class Balance(models.Model):
+  client = models.ForeignKey('Client', on_delete=models.CASCADE)
+  amount = models.DecimalField(max_digits=10, decimal_places=2)
+  IN = 'IN'
+  OUT = 'OUT'
+  TRANSACTION_CHOICES = [
+      (IN, 'In'),
+      (OUT, 'Out'),
+  ]
+  transaction_type = models.CharField(
+      max_length=3,
+      choices=TRANSACTION_CHOICES,
+      default=IN,
+  )
+  timestamp = models.DateTimeField(auto_now_add=True)
+  transaction_reference = models.CharField(max_length=255, null=True, blank=True)
+  currency = models.CharField(max_length=3)
+
+class Service(models.Model):
+  name = models.CharField(max_length=50)
+  is_active = models.BooleanField(default=True)
+  company = models.ForeignKey('Company', on_delete=models.CASCADE)
+
+class OrderStatus(models.Model):
+  name = models.CharField(max_length=50)
+
+class Order(models.Model):
+  client = models.ForeignKey('Client', on_delete=models.CASCADE)
+  service = models.ForeignKey('Service', on_delete=models.CASCADE)
+  cur_status = models.ForeignKey('OrderStatus', on_delete=models.CASCADE)
+  total_cost = models.DecimalField(max_digits=10, decimal_places=2)
+  company = models.ForeignKey('Company', on_delete=models.CASCADE)
+  date = models.DateField(auto_now_add=True)
+
+class OrderHistory(models.Model):
+  order = models.ForeignKey('Order', on_delete=models.CASCADE)
+  status = models.ForeignKey('OrderStatus', on_delete=models.CASCADE)
+  company = models.ForeignKey('Company', on_delete=models.CASCADE)
+  client = models.ForeignKey('Client', on_delete=models.CASCADE)
+  date = models.DateTimeField(auto_now_add=True)
