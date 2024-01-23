@@ -4,12 +4,6 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Order, Company
 from .serializers import OrderSerializer
 
-def getOrders(request, company_id):
-  company = get_object_or_404(Company, id=company_id)
-  orders = get_list_or_404(Order.objects.filter(company=company))
-  serializer = OrderSerializer(orders, many=True)
-  return Response(serializer.data, status=status.HTTP_200_OK)
-
 def getOrder(request, pk):
   order = get_object_or_404(Order, pk=pk)
   serializer = OrderSerializer(order, many=False)

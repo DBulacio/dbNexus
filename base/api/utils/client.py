@@ -55,8 +55,8 @@ def updateClient(request, pk):
 
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def getClientsByCompany(request, pk):
-  clients = get_list_or_404(Client.objects.filter(company=pk))
+def getClientsByCompany(request, company_id):
+  clients = get_list_or_404(Client.objects.filter(company=company_id))
   serializer = ClientSerializer(clients, many=True)
 
   return Response(serializer.data, status=status.HTTP_200_OK)
