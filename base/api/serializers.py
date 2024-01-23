@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
-from base.models import Client, Company, Product, Stock, Balance, Service, Order, OrderHistory, OrderStatus
+from base.models import Client, Company, Product, Stock, Balance, Service, Order, OrderHistory
 from cities_light.models import Country, Region
 
 class UserSerializer(ModelSerializer):
@@ -90,14 +90,6 @@ class ServiceSerializer(ModelSerializer):
       'name': {'required': False},
       'is_active': {'required': False},
       'company': {'required': False},
-    }
-
-class OrderStatusSerializer(ModelSerializer):
-  class Meta:
-    model = OrderStatus
-    fields = '__all__'
-    extra_kwargs = {
-      'name': {'required': False},
     }
 
 class OrderSerializer(ModelSerializer):

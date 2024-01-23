@@ -15,7 +15,6 @@ from .utils.service import createService, getServices, getService, deleteService
 from .utils.balance import createBalance, getBalance, deleteBalance, updateBalance
 from .utils.order import createOrder, getOrder, deleteOrder, updateOrder, get_orders_by_company, get_orders_by_client
 from .utils.orderhistory import createOrderHistory, getOrderHistory, deleteOrderHistory, updateOrderHistory, get_order_histories_by_company, get_order_histories_by_order
-from .utils.orderhistory import createOrderStatus, getOrderStatuses, getOrderStatus, deleteOrderStatus, updateOrderStatus
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -284,23 +283,6 @@ def getOrderHistoriesByCompany(request, company_id):
   return get_order_histories_by_company(request, company_id)
 def getOrderHistoriesByClient(request, client_id):
   return get_order_histories_by_order(request, client_id)
-
-# Order status
-@api_view(['GET', 'POST'])
-def allOrderStatuses(request):
-  if(request.method == 'GET'):
-    return getOrderStatuses(request)
-  if(request.method == 'POST'):
-    return createOrderStatus(request)
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def individualOrderStatuses(request, pk):
-  if(request.method == 'GET'):
-    return getOrderStatus(request, pk)
-  if(request.method == 'PUT'):
-    return updateOrderStatus(request, pk)
-  if(request.method == 'DELETE'):
-    return deleteOrderStatus(request, pk)
 
 # Country and State
 class CountryListAPIView(generics.ListAPIView):

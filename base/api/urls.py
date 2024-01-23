@@ -42,9 +42,6 @@ urlpatterns = [
   path('orderhistories/<int:company_id>/', views.getOrderHistoriesByCompany, name='orderhistoriesByCompany'),
   path('orderhistories/<int:client_id>/', views.getOrderHistoriesByClient, name='orderhistoriesByClient'),
 
-  path('orderstatuses/', views.allOrderStatuses, name='orderstatuses'),
-  path('orderstatuses/<int:pk>/', views.individualOrderStatuses, name='orderstatus'),
-
   # country and state
   path('countries/', CountryListAPIView.as_view(), name='country-list'),
   path('states/', RegionListAPIView.as_view(), name='region-list'),

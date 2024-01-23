@@ -51,20 +51,44 @@ class Service(models.Model):
   is_active = models.BooleanField(default=True)
   company = models.ForeignKey('Company', on_delete=models.CASCADE)
 
-class OrderStatus(models.Model):
-  name = models.CharField(max_length=50)
-
 class Order(models.Model):
+  class OrderStatus(models.TextChoices):
+    PENDING    = 'Pending', 'Pending'
+    ACCEPTED   = 'Accepted', 'Accepted'
+    REJECTED   = 'Rejected', 'Rejected'
+    PROCESSING = 'Processing', 'Processing'
+    COMPLETED  = 'Completed', 'Completed'
+    DELIVERED  = 'Delivered', 'Delivered'
+    CANCELLED  = 'Cancelled', 'Cancelled'
+    REOPENED   = 'Reopened', 'Reopened'
+  
   client = models.ForeignKey('Client', on_delete=models.CASCADE)
   service = models.ForeignKey('Service', on_delete=models.CASCADE)
-  cur_status = models.ForeignKey('OrderStatus', on_delete=models.CASCADE)
+  cur_status = models.CharField(
+    max_length=20,
+    choices=OrderStatus.choices,
+    default=OrderStatus.PENDING
+  )
   total_cost = models.DecimalField(max_digits=10, decimal_places=2)
   company = models.ForeignKey('Company', on_delete=models.CASCADE)
   date = models.DateField(auto_now_add=True)
 
 class OrderHistory(models.Model):
+  class OrderStatus(models.TextChoices):
+    PENDING    = 'Pending', 'Pending'
+    ACCEPTED   = 'Accepted', 'Accepted'
+    REJECTED   = 'Rejected', 'Rejected'
+    PROCESSING = 'Processing', 'Processing'
+    COMPLETED  = 'Completed', 'Completed'
+    DELIVERED  = 'Delivered', 'Delivered'
+    CANCELLED  = 'Cancelled', 'Cancelled'
+    REOPENED   = 'Reopened', 'Reopened'
+
   order = models.ForeignKey('Order', on_delete=models.CASCADE)
-  status = models.ForeignKey('OrderStatus', on_delete=models.CASCADE)
+  status = models.CharField(
+    max_length=20,
+    choices=OrderStatus.choices
+  )
   company = models.ForeignKey('Company', on_delete=models.CASCADE)
   client = models.ForeignKey('Client', on_delete=models.CASCADE)
   date = models.DateTimeField(auto_now_add=True)
