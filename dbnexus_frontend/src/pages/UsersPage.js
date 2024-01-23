@@ -10,7 +10,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const UsersPage = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
   const [rows, setRows] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -19,13 +18,8 @@ const UsersPage = () => {
     let res = await fetch("/api/users/");
     let data = await res.json();
 
-    setUsers(data);
-
-    console.log('>>', data)
-
     let newRows = data.map(element => ({
       id: element.id,
-      dni: element.dni,
       first_name: element.first_name,
       last_name: element.last_name,
     }));
@@ -103,29 +97,43 @@ const UsersPage = () => {
     <>
       <div>
         <h1>Listado de usuarios</h1>
-        <DataGrid
-          sx={{width: 800}}
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          slots={{
-            toolbar: CustomToolbar,
-          }}
-        />
+        { rows.length > 0  ? (
+            <DataGrid
+              sx={{width: 800}}
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              slots={{
+                toolbar: CustomToolbar,
+              }}
+            />
+          ) : (
+            <>
+              <p>No hay usuarios que mostar</p>
+              <Button
+                color="primary"
+                onClick={() => navigate("add")}
+              >
+                Add User
+              </Button>
+            </>
+          )
+        }
       </div>
+
       <Dialog
         open={deleteDialogOpen}
         onClose={handleCloseDeleteDialog}
       >
-        <DialogTitle>Delete User</DialogTitle>
+        <DialogTitle>Borrar Usuario</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this user?
+            ¿Estás seguro que querés borrar este usuario?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} color="secondary">Delete</Button>
+          <Button onClick={handleCloseDeleteDialog}>Cancelar</Button>
+          <Button onClick={handleConfirmDelete} color="secondary">Borrar</Button>
         </DialogActions>
       </Dialog>
     </>
