@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .models import Order, Company
-from .serializers import OrderSerializer
+from base.models import Order, Company
+from ..serializers import OrderSerializer
 
 def getOrder(request, pk):
   order = get_object_or_404(Order, pk=pk)

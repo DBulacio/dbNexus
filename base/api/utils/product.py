@@ -83,7 +83,7 @@ def addManualStock(request):
 
 # getStockByProduct -> returns stock amount
 def getStockByProduct(request, product_id):
-  stock = Stock.objects.filter(product=pk, date_out__isnull=True).count()
+  stock = Stock.objects.filter(product=product_id, date_out__isnull=True).count()
   return Response(stock, status=status.HTTP_200_OK)
 
 # takeStock -> updatea el stock más viejo que tengamos del producto siempre y cuando exista alguno.
