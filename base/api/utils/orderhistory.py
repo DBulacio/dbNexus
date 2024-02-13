@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from base.models import OrderHistory, Order, Company
+from base.models import OrderHistory, Order
 from ..serializers import OrderHistorySerializer
 
 def getOrderHistory(request, pk):
@@ -34,12 +34,6 @@ def deleteOrderHistory(request, pk):
   order_history = get_object_or_404(OrderHistory, pk=pk)
   order_history.delete()
   return Response("OrderHistory was deleted!", status=status.HTTP_200_OK)
-
-def get_order_histories_by_company(request, company_id):
-  company = get_object_or_404(Company, id=company_id)
-  order_histories = get_list_or_404(OrderHistory.objects.filter(company=company))
-  serializer = OrderHistorySerializer(order_histories, many=True)
-  return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_order_histories_by_order(request, order_id):
   order = get_object_or_404(Order, id=order_id)

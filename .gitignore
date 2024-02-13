@@ -6,6 +6,7 @@ base/__pycache__
 base/api/__pycache__
 base/api/utils/__pycache__
 base/migrations/__pycache__
+base/migrations/
 dbnexus_backend/__pycache__
 /.pnp
 .pnp.js

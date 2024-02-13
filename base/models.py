@@ -1,10 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-class Company(models.Model):
-  name = models.CharField(max_length=50)
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
-  is_active = models.BooleanField(default=True)
   
 class Client(models.Model):
   name    = models.CharField(max_length=50)
@@ -16,12 +11,10 @@ class Client(models.Model):
   postal  = models.CharField(max_length=20, null=True, blank=True)
   country = models.ForeignKey('cities_light.Country', on_delete=models.SET_NULL, null=True, blank=True)
   state   = models.ForeignKey('cities_light.Region', on_delete=models.SET_NULL, null=True, blank=True)
-  company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 class Product(models.Model):
   name    = models.CharField(max_length=50)
   is_active  = models.BooleanField(default=True)
-  company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 class Stock(models.Model):
   product  = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -49,7 +42,6 @@ class Balance(models.Model):
 class Service(models.Model):
   name = models.CharField(max_length=50)
   is_active = models.BooleanField(default=True)
-  company = models.ForeignKey('Company', on_delete=models.CASCADE)
 
 class Order(models.Model):
   class OrderStatus(models.TextChoices):
@@ -70,7 +62,6 @@ class Order(models.Model):
     default=OrderStatus.PENDING
   )
   total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-  company = models.ForeignKey('Company', on_delete=models.CASCADE)
   date = models.DateField(auto_now_add=True)
 
 class OrderHistory(models.Model):
@@ -89,6 +80,5 @@ class OrderHistory(models.Model):
     max_length=20,
     choices=OrderStatus.choices
   )
-  company = models.ForeignKey('Company', on_delete=models.CASCADE)
   client = models.ForeignKey('Client', on_delete=models.CASCADE)
   date = models.DateTimeField(auto_now_add=True)

@@ -8,13 +8,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .utils.user import updateUser, createUser, deleteUser, getUser, getUsers
-from .utils.client import createClient, getClients, getClient, deleteClient, updateClient, getClientsByCompany
-from .utils.company import createCompany, getCompanies, getCompany, deleteCompany, updateCompany, getCompaniesByUser
+from .utils.client import createClient, getClients, getClient, deleteClient, updateClient
 from .utils.product import createProduct, getProducts, getProduct, deleteProduct, updateProduct, addBulkStock, addManualStock, getStockByProduct, takeStock
-from .utils.service import createService, getServices, getService, deleteService, updateService
+from .utils.service import createService, getAllServices, getService, deleteService, updateService
 from .utils.balance import createBalance, getBalance, deleteBalance, updateBalance
-from .utils.order import createOrder, getOrder, deleteOrder, updateOrder, get_orders_by_company, get_orders_by_client
-from .utils.orderhistory import createOrderHistory, getOrderHistory, deleteOrderHistory, updateOrderHistory, get_order_histories_by_company, get_order_histories_by_order
+from .utils.order import createOrder, getOrder, deleteOrder, updateOrder, get_all_orders, get_orders_by_client
+from .utils.orderhistory import createOrderHistory, getOrderHistory, deleteOrderHistory, updateOrderHistory, get_order_histories_by_order
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -61,21 +60,6 @@ def getRoutes(request):
       'Endpoint': '/clients/<str:pk>/',
       'method': 'GET',
       'description': 'Returns, updates or deletes a single client.'
-    },
-    {
-      'Endpoint': '/clients/company/<str:pk>/',
-      'method': 'GET',
-      'description': 'Returns an array of clients of company.'
-    },
-    {
-      'Endpoint': '/companies/',
-      'method': 'GET',
-      'description': 'Returns an array of companies or creates a new company.'
-    },
-    {
-      'Endpoint': '/companies/<str:pk>/',
-      'method': 'GET',
-      'description': 'Returns, updates or deletes a single company.'
     },
     {
       'Endpoint': '/companies/user/<str:pk>/',
@@ -151,34 +135,6 @@ def allClients(request):
   if(request.method == 'POST'):
     return createClient(request)
 
-@api_view(['GET'])
-def clientsByCompany(request, company_id):
-  return getClientsByCompany(request, company_id)
-
-# Companies
-@api_view(['GET', 'PUT', 'DELETE'])
-def individualCompanies(request, pk):
-  if(request.method == 'GET'):
-    return getCompany(request, pk)
-
-  if(request.method == 'PUT'):
-    return updateCompany(request, pk)
-  
-  if(request.method == 'DELETE'):
-    return deleteCompany(request, pk)
-  
-@api_view(['GET', 'POST'])
-def allCompanies(request):
-  if(request.method == 'GET'):
-    return getCompanies(request)
-
-  if(request.method == 'POST'):
-    return createCompany(request)
-  
-@api_view(['GET'])
-def companiesByUser(request, user_id):
-  return getCompaniesByUser(request, user_id)
-
 # Products
 @api_view(['GET', 'POST'])
 def allProducts(request):
@@ -224,12 +180,12 @@ def individualServices(request, pk):
   if(request.method == 'DELETE'):
     return deleteService(request, pk)
 
-@api_view(['POST'])
-def addService(request):
-  return createService(request)
-@api_view(['GET'])
-def getServicesByCompany(request, company_id):
-  return getServices(request, company_id)
+@api_view(['POST', 'GET'])
+def allServices(request):
+  if(request.method == 'POST'):
+    return createService(request)
+  if(request.method == 'GET'):
+    return getAllServices(request)
 
 # Balance
 @api_view(['PUT', 'DELETE'])
@@ -256,12 +212,14 @@ def individualOrders(request, pk):
   if(request.method == 'DELETE'):
     return deleteOrder(request, pk)
 
-@api_view(['POST'])
-def addOrder(request):
-  return createOrder(request)
+@api_view(['POST', 'GET'])
+def allOrders(request):
+  if(request.method == 'POST'):
+    return createOrder(request)
+  if(request.method == 'GET'):
+    return get_all_orders(request)
+  
 @api_view(['GET'])
-def getOrdersByCompany(request, company_id):
-  return get_orders_by_company(request, company_id)
 def getOrdersByClient(request, client_id):
   return get_orders_by_client(request, client_id)
 
@@ -279,8 +237,6 @@ def individualOrderHistories(request, pk):
 def addOrderHistory(request):
   return createOrderHistory(request)
 @api_view(['GET'])
-def getOrderHistoriesByCompany(request, company_id):
-  return get_order_histories_by_company(request, company_id)
 def getOrderHistoriesByClient(request, client_id):
   return get_order_histories_by_order(request, client_id)
 
