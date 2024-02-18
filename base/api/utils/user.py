@@ -18,6 +18,14 @@ def getUser(request, pk):
   return Response(user_data, status=status.HTTP_200_OK)
   
 def createUser(request):
+    #   {
+    #     "password": "test",
+    #     "username": "client",
+    #     "firstName": "client",
+    #     "lastName": "test",
+    #     "email": "daniel@client.com",
+    #     "group": 1
+    # }
   data = request.data
 
   user_instance = User.objects.create_user(
