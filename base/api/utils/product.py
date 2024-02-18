@@ -82,19 +82,19 @@ def addManualStock(request):
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # getStockByProduct -> returns stock amount
-def getStockByProduct(request, pk):
-  stock = Stock.objects.filter(product=pk, date_out__isnull=True).count()
+def getStockByProduct(request, product_id):
+  stock = Stock.objects.filter(product=product_id, date_out__isnull=True).count()
   return Response(stock, status=status.HTTP_200_OK)
 
 # takeStock -> updatea el stock más viejo que tengamos del producto siempre y cuando exista alguno.
-def takeStock(request, pk):
+def takeStock(request, product_id):
   try:
-    min_date_in = Stock.objects.filter(product=pk, date_out__isnull=True).aggregate(min_date_in=Min('date_in'))['min_date_in']
+    min_date_in = Stock.objects.filter(product=product_id, date_out__isnull=True).aggregate(min_date_in=Min('date_in'))['min_date_in']
 
     if min_date_in is None:
       return Response("No stock available for this product", status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    stock_record = Stock.objects.filter(product=pk, date_in=min_date_in, date_out__isnull=True).order_by('id').first()
+    stock_record = Stock.objects.filter(product=product_id, date_in=min_date_in, date_out__isnull=True).order_by('id').first()
     if stock_record is None:
       return Response('No stock record found for this product', status=status.HTTP_405_METHOD_NOT_ALLOWED)
 

@@ -10,19 +10,31 @@ urlpatterns = [
   path('', views.getRoutes),
 
   path('users/', views.allUsers, name='users'),
-  path('users/<str:pk>/', views.individualUsers, name='user'),
+  path('users/<int:pk>/', views.individualUsers, name='user'),
   path('clients/', views.allClients, name='clients'),
-  path('clients/<str:pk>/', views.individualClients, name='client'),
-  path('clients/company/<str:pk>/', views.clientsByCompany, name='clientsByCompany'),
-  path('companies/', views.allCompanies, name='companies'),
-  path('companies/<str:pk>/', views.individualCompanies, name='company'),
-  path('companies/user/<str:pk>/', views.companiesByUser, name='companiesByUser'),
+  path('clients/<int:pk>/', views.individualClients, name='client'),
   
   path('products/', views.allProducts, name='products'),
-  path('products/<str:pk>/', views.individualProducts, name='product'),
+  path('products/<int:pk>/', views.individualProducts, name='product'),
   path('stock/', views.addStock, name='stock'),
   path('stock/bulk/', views.addBulStock, name='bulk-stock'),
-  path('stock/<str:pk>/', views.stockByProduct, name='stockByProduct'),
+  path('stock/<int:product_id>/', views.stockByProduct, name='stockByProduct'),
+  
+  path('services/', views.allServices, name='add-service'),
+  path('services/<int:pk>/', views.individualServices, name='service'),
+
+  path('balances/', views.addBalance, name='add-balance'),
+  path('balances/<int:pk>/', views.individualBalances, name='balance'),
+  path('balances/<int:client_id>/', views.getBalanceByClient, name='balances'),
+
+  path('orders/', views.allOrders, name='add-order'),
+  path('orders/<int:pk>/', views.individualOrders, name='order'),
+  path('orders/<int:client_id>/', views.getOrdersByClient, name='ordersByClient'),
+
+  path('orderhistories/', views.addOrderHistory, name='add-orderhistory'),
+  path('orderhistories/<int:pk>/', views.individualOrderHistories, name='orderhistory'),
+  path('orderhistories/<int:client_id>/', views.getOrderHistoriesByClient, name='orderhistoriesByClient'),
+
   # country and state
   path('countries/', CountryListAPIView.as_view(), name='country-list'),
   path('states/', RegionListAPIView.as_view(), name='region-list'),

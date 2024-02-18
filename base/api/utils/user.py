@@ -28,6 +28,13 @@ def createUser(request):
     last_name=data['lastName'],
   )
 
+  group_id = data['group']
+  try:
+    group = Group.objects.get(id=group_id)
+    user_instance.groups.add(group)
+  except Group.DoesNotExist:
+    return Response("Group does not exist", status=status.HTTP_400_BAD_REQUEST)
+
   serializer = UserSerializer(user_instance, many=False)
   if serializer.is_valid:
     return Response(serializer.data, status=status.HTTP_200_OK)

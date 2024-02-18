@@ -1,14 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .models import OrderHistory, Order, OrderStatus, Company
-from .serializers import OrderHistorySerializer
-
-def getOrderHistories(request, company_id):
-  company = get_object_or_404(Company, id=company_id)
-  order_histories = get_list_or_404(OrderHistory.objects.filter(company=company))
-  serializer = OrderHistorySerializer(order_histories, many=True)
-  return Response(serializer.data, status=status.HTTP_200_OK)
+from base.models import OrderHistory, Order
+from ..serializers import OrderHistorySerializer
 
 def getOrderHistory(request, pk):
   order_history = get_object_or_404(OrderHistory, pk=pk)

@@ -1,14 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .models import Order, Company
-from .serializers import OrderSerializer
-
-def getOrders(request, company_id):
-  company = get_object_or_404(Company, id=company_id)
-  orders = get_list_or_404(Order.objects.filter(company=company))
-  serializer = OrderSerializer(orders, many=True)
-  return Response(serializer.data, status=status.HTTP_200_OK)
+from base.models import Order, Client
+from ..serializers import OrderSerializer
 
 def getOrder(request, pk):
   order = get_object_or_404(Order, pk=pk)
@@ -41,9 +35,8 @@ def deleteOrder(request, pk):
   order.delete()
   return Response("Order was deleted!", status=status.HTTP_200_OK)
 
-def get_orders_by_company(request, company_id):
-  company = get_object_or_404(Company, id=company_id)
-  orders = get_list_or_404(Order.objects.filter(company=company))
+def get_all_orders(request):
+  orders = get_list_or_404(Order.objects.all())
   serializer = OrderSerializer(orders, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 

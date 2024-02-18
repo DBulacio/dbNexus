@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
-from base.models import Client, Company, Product, Stock, Balance, Service, Order, OrderHistory, OrderStatus
+from base.models import Client, Product, Stock, Balance, Service, Order, OrderHistory
 from cities_light.models import Country, Region
 
 class UserSerializer(ModelSerializer):
@@ -22,16 +22,6 @@ class UserSerializer(ModelSerializer):
       "user_permissions": {'required': False},
     }
 
-class CompanySerializer(ModelSerializer):
-  class Meta:
-    model = Company
-    fields = '__all__'
-    extra_kwargs = {
-      'name' : {'required': False},
-      'user' : {'required': False},
-      'is_active' : {'required': False},
-    }
-
 class ClientSerializer(ModelSerializer):
   class Meta:
     model = Client
@@ -46,7 +36,6 @@ class ClientSerializer(ModelSerializer):
       'postal':  {'required': False},
       'country': {'required': False},
       'state':   {'required': False},
-      'company': {'required': False},
     }
 
 class ProductSerializer(ModelSerializer):
@@ -56,7 +45,6 @@ class ProductSerializer(ModelSerializer):
     extra_kwargs = {
       'name':    {'required': False},
       'is_active':  {'required': False},
-      'company': {'required': False},
     }
 
 class StockSerializer(ModelSerializer):
@@ -89,15 +77,6 @@ class ServiceSerializer(ModelSerializer):
     extra_kwargs = {
       'name': {'required': False},
       'is_active': {'required': False},
-      'company': {'required': False},
-    }
-
-class OrderStatusSerializer(ModelSerializer):
-  class Meta:
-    model = OrderStatus
-    fields = '__all__'
-    extra_kwargs = {
-      'name': {'required': False},
     }
 
 class OrderSerializer(ModelSerializer):
@@ -109,7 +88,6 @@ class OrderSerializer(ModelSerializer):
       'service': {'required': False},
       'cur_status': {'required': False},
       'total_cost': {'required': False},
-      'company': {'required': False},
       'date': {'required': False},
     }
 
@@ -120,7 +98,6 @@ class OrderHistorySerializer(ModelSerializer):
     extra_kwargs = {
       'order': {'required': False},
       'status': {'required': False},
-      'company': {'required': False},
       'date': {'required': False},
     }
 

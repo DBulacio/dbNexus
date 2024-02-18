@@ -1,12 +1,11 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .models import Service
-from .serializers import ServiceSerializer
+from base.models import Service
+from ..serializers import ServiceSerializer
 
-def getServices(request, company_id):
-  company = get_object_or_404(Company, id=company_id)
-  services = get_list_or_404(Service.objects.filter(company=company))
+def getAllServices(request):
+  services = get_list_or_404(Service.objects.all())
   serializer = ServiceSerializer(services, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 

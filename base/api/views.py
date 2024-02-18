@@ -8,9 +8,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .utils.user import updateUser, createUser, deleteUser, getUser, getUsers
-from .utils.client import createClient, getClients, getClient, deleteClient, updateClient, getClientsByCompany
-from .utils.company import createCompany, getCompanies, getCompany, deleteCompany, updateCompany, getCompaniesByUser
+from .utils.client import createClient, getClients, getClient, deleteClient, updateClient
 from .utils.product import createProduct, getProducts, getProduct, deleteProduct, updateProduct, addBulkStock, addManualStock, getStockByProduct, takeStock
+from .utils.service import createService, getAllServices, getService, deleteService, updateService
+from .utils.balance import createBalance, getBalance, deleteBalance, updateBalance
+from .utils.order import createOrder, getOrder, deleteOrder, updateOrder, get_all_orders, get_orders_by_client
+from .utils.orderhistory import createOrderHistory, getOrderHistory, deleteOrderHistory, updateOrderHistory, get_order_histories_by_order
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   @classmethod
@@ -57,21 +60,6 @@ def getRoutes(request):
       'Endpoint': '/clients/<str:pk>/',
       'method': 'GET',
       'description': 'Returns, updates or deletes a single client.'
-    },
-    {
-      'Endpoint': '/clients/company/<str:pk>/',
-      'method': 'GET',
-      'description': 'Returns an array of clients of company.'
-    },
-    {
-      'Endpoint': '/companies/',
-      'method': 'GET',
-      'description': 'Returns an array of companies or creates a new company.'
-    },
-    {
-      'Endpoint': '/companies/<str:pk>/',
-      'method': 'GET',
-      'description': 'Returns, updates or deletes a single company.'
     },
     {
       'Endpoint': '/companies/user/<str:pk>/',
@@ -147,34 +135,6 @@ def allClients(request):
   if(request.method == 'POST'):
     return createClient(request)
 
-@api_view(['GET'])
-def clientsByCompany(request, pk):
-  return getClientsByCompany(request, pk)
-
-# Companies
-@api_view(['GET', 'PUT', 'DELETE'])
-def individualCompanies(request, pk):
-  if(request.method == 'GET'):
-    return getCompany(request, pk)
-
-  if(request.method == 'PUT'):
-    return updateCompany(request, pk)
-  
-  if(request.method == 'DELETE'):
-    return deleteCompany(request, pk)
-  
-@api_view(['GET', 'POST'])
-def allCompanies(request):
-  if(request.method == 'GET'):
-    return getCompanies(request)
-
-  if(request.method == 'POST'):
-    return createCompany(request)
-  
-@api_view(['GET'])
-def companiesByUser(request, pk):
-  return getCompaniesByUser(request, pk)
-
 # Products
 @api_view(['GET', 'POST'])
 def allProducts(request):
@@ -197,11 +157,11 @@ def individualProducts(request, pk):
 
 # Stock
 @api_view(['GET', 'PUT'])
-def stockByProduct(request, pk):
+def stockByProduct(request, product_id):
   if(request.method == 'GET'):
-    return getStockByProduct(request, pk)
+    return getStockByProduct(request, product_id)
   if(request.method == 'PUT'):
-    return takeStock(request, pk)
+    return takeStock(request, product_id)
 
 @api_view(['POST'])
 def addStock(request):
@@ -209,6 +169,76 @@ def addStock(request):
 @api_view(['POST'])
 def addBulStock(request):
   return addBulkStock(request)
+
+# Service
+@api_view(['GET', 'PUT', 'DELETE'])
+def individualServices(request, pk):
+  if(request.method == 'GET'):
+    return getService(request, pk)
+  if(request.method == 'PUT'):
+    return updateService(request, pk)
+  if(request.method == 'DELETE'):
+    return deleteService(request, pk)
+
+@api_view(['POST', 'GET'])
+def allServices(request):
+  if(request.method == 'POST'):
+    return createService(request)
+  if(request.method == 'GET'):
+    return getAllServices(request)
+
+# Balance
+@api_view(['PUT', 'DELETE'])
+def individualBalances(request, pk):
+  if(request.method == 'PUT'):
+    return updateBalance(request, pk)
+  if(request.method == 'DELETE'):
+    return deleteBalance(request, pk)
+  
+@api_view(['POST'])
+def addBalance(request):
+  return createBalance(request)
+@api_view(['GET'])
+def getBalanceByClient(request, client_id):
+  return getBalance(request, client_id)
+
+# Order
+@api_view(['GET', 'PUT', 'DELETE'])
+def individualOrders(request, pk):
+  if(request.method == 'GET'):
+    return getOrder(request, pk)
+  if(request.method == 'PUT'):
+    return updateOrder(request, pk)
+  if(request.method == 'DELETE'):
+    return deleteOrder(request, pk)
+
+@api_view(['POST', 'GET'])
+def allOrders(request):
+  if(request.method == 'POST'):
+    return createOrder(request)
+  if(request.method == 'GET'):
+    return get_all_orders(request)
+  
+@api_view(['GET'])
+def getOrdersByClient(request, client_id):
+  return get_orders_by_client(request, client_id)
+
+# Order history
+@api_view(['GET', 'PUT', 'DELETE'])
+def individualOrderHistories(request, pk):
+  if(request.method == 'GET'):
+    return getOrderHistory(request, pk)
+  if(request.method == 'PUT'):
+    return updateOrderHistory(request, pk)
+  if(request.method == 'DELETE'):
+    return deleteOrderHistory(request, pk)
+
+@api_view(['POST'])
+def addOrderHistory(request):
+  return createOrderHistory(request)
+@api_view(['GET'])
+def getOrderHistoriesByClient(request, client_id):
+  return get_order_histories_by_order(request, client_id)
 
 # Country and State
 class CountryListAPIView(generics.ListAPIView):
