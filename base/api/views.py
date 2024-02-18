@@ -22,6 +22,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     # Add custom claims
     token['username'] = user.username
+    user_groups = user.groups.all()
+    if user_groups.exists():
+      token['group'] = user_groups[0].name
     # ...
 
     return token

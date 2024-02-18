@@ -32,7 +32,12 @@ export const AuthProvider = ({children}) => {
       setAuthTokens(data)
       setUser(jwtDecode(data.access))
       localStorage.setItem('authTokens', JSON.stringify(data))
-      navigate('/')
+      if(jwtDecode(data.access).group == "client") {
+        navigate('/client')
+      } else {
+        navigate('/')
+      }
+
     } else {
       alert('Error in AuthContext')
     }
