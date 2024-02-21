@@ -52,6 +52,14 @@ const AddOrderPage = () => {
     }
   };
 
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   useEffect(() => {
     fetchServices();
     
@@ -63,20 +71,31 @@ const AddOrderPage = () => {
   return (
     <div>
       <h1>Add order</h1>
-      <form >
-        <input type="hidden" name="client" value={user.user_id} />
-        <select name="service">
-          <option></option>
-          {/* Add all services */}
+      <form>
+        {user.group === 'client' ? (
+          // If client is placing order then assign order to them.
+          <input type="hidden" name="client" value={user.user_id} />
+        ) : (
+          <select name="clients">
+            <option value="">Select a client</option>
+            {clients.map(client => (
+              <option key={client.id} value={client.id}>{client.first_name + ' ' + client.last_name}</option>
+            ))}
+          </select>
+        )}
+        <select name="services">
+          <option value="">Select a service</option>
+          {services.map(service => (
+            <option key={service.id} value={service.id}>{service.name}</option>
+          ))}
         </select>
-        <select name="cur_status">
-        </select>
+        {/* Rethink what the statuses mean and be more specific. This could maybe be Accepted since I think we first though Accepted meant the client wanted to go through with the job. */}
+        <input type="hidden" value='Pending' /> 
 
-        <input type="text" name="total_cost" /> 
-        {/* calculate total cost base on service cost */}
-        <input type="date" name="date" />
-        {/* curdate */}
-        <input type="submit" />
+        <input type="text" name="total_cost"/> 
+        <input type="hidden" name="date" value={getCurrentDate()} />
+        <input type="submit" value="Send" />
+
       </form>
     </div>
   )
