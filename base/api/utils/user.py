@@ -67,3 +67,9 @@ def deleteUser(request, pk):
   user.delete()
   
   return Response("User was deleted!", status=status.HTTP_200_OK)
+
+def getClients(request):
+  # Filter users by group 'client'
+  clients = get_list_or_404(User.objects.filter(is_active=True, groups__name='client'))
+  serializer = UserSerializer(clients, many=True)
+  return Response(serializer.data, status=status.HTTP_200_OK)

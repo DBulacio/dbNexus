@@ -12,7 +12,6 @@ urlpatterns = [
   path('users/', views.allUsers, name='users'),
   path('users/<int:pk>/', views.individualUsers, name='user'),
   path('clients/', views.allClients, name='clients'),
-  path('clients/<int:pk>/', views.individualClients, name='client'),
   
   path('products/', views.allProducts, name='products'),
   path('products/<int:pk>/', views.individualProducts, name='product'),
