@@ -5,7 +5,7 @@ from base.models import Service
 from ..serializers import ServiceSerializer
 
 def getAllServices(request):
-  services = get_list_or_404(Service.objects.all())
+  services = get_list_or_404(Service.objects.filter(is_active=True))
   serializer = ServiceSerializer(services, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 
