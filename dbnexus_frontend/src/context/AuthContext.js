@@ -33,7 +33,7 @@ export const AuthProvider = ({children}) => {
       setUser(jwtDecode(data.access))
       localStorage.setItem('authTokens', JSON.stringify(data))
       if(jwtDecode(data.access).group == "client") {
-        navigate('/client')
+        navigate('/order/add')
       } else {
         navigate('/')
       }

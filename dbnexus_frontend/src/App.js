@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route path="/" exact element={<HomePage />} />
-              <Route path="/client" element={<AddOrderPage />} />
+              <Route path="/order/add" element={<AddOrderPage />} />
               <Route path="/users" element={<UsersPage />} />
               <Route path="/users/add" element={<UserAddForm />} />
               <Route path="/users/update/:userId" element={<UserUpdateForm />} />
